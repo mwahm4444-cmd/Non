@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إلى حبيبتي</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background-color: #ffe6ea;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: Tahoma, sans-serif;
+        }
+        .flower-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            animation: bloomContainer 2s ease-out forwards;
+        }
+        .petal {
+            position: absolute;
+            width: 80px;
+            height: 120px;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            top: 40px;
+            left: 60px;
+            transform-origin: center bottom;
+            opacity: 0;
+            animation: bloomPetal 2s ease-out forwards;
+        }
+        .petal:nth-child(1) { transform: rotate(0deg) scale(0); animation-delay: 0.2s; }
+        .petal:nth-child(2) { transform: rotate(72deg) scale(0); animation-delay: 0.4s; }
+        .petal:nth-child(3) { transform: rotate(144deg) scale(0); animation-delay: 0.6s; }
+        .petal:nth-child(4) { transform: rotate(216deg) scale(0); animation-delay: 0.8s; }
+        .petal:nth-child(5) { transform: rotate(288deg) scale(0); animation-delay: 1s; }
+        
+        .center-heart {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #d81b60;
+            top: 75px;
+            left: 75px;
+            border-radius: 50%;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 24px;
+            transform: scale(0);
+            animation: popHeart 1s ease-out 1.5s forwards;
+        }
+
+        .message {
+            position: absolute;
+            bottom: 50px;
+            text-align: center;
+            width: 100%;
+            font-size: 24px;
+            color: #880e4f;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 2.2s forwards;
+        }
+
+        @keyframes bloomPetal {
+            0% { transform: rotate(var(--rot)) scale(0); opacity: 0; }
+            100% { opacity: 0.9; transform: rotate(var(--rot)) scale(1); }
+        }
+        @keyframes popHeart {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flower-container">
+        <div class="petal" style="--rot: 0deg;"></div>
+        <div class="petal" style="--rot: 72deg;"></div>
+        <div class="petal" style="--rot: 144deg;"></div>
+        <div class="petal" style="--rot: 216deg;"></div>
+        <div class="petal" style="--rot: 288deg;"></div>
+        <div class="center-heart">❤️</div>
+    </div>
+
+    <div class="message">شوف حبيبي في المشفى... كل الحب لعيونك</div>
+
+</body>
+</html>
