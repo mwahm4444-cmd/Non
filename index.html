@@ -5,207 +5,223 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>إلى أغلى الناس</title>
     <style>
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100vh;
-            background-color: #05020a;
+            background: radial-gradient(circle at center, #1f0010 0%, #050005 100%);
             overflow: hidden;
             font-family: 'Tahoma', sans-serif;
-            perspective: 1000px;
+            perspective: 1200px;
         }
 
-        /* الفضاء والنجوم المتحركة للعمق */
+        /* فضاء النجوم العميق */
         .space {
             position: absolute;
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
-            animation: zoomInSpace 6s cubic-bezier(0.15, 0.85, 0.35, 1) forwards;
+            animation: spaceDive 7s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
         }
 
         .star {
             position: absolute;
             background: #fff;
             border-radius: 50%;
-            animation: starGlow 2s infinite alternate;
+            animation: twinkle 2s infinite alternate;
         }
 
-        @keyframes starGlow {
-            from { opacity: 0.3; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1.3); }
+        @keyframes twinkle {
+            from { opacity: 0.2; transform: scale(0.7); }
+            to { opacity: 1; transform: scale(1.4); }
         }
 
-        /* مشهد الوردة العميق ثلاثي الأبعاد */
- طبقة التمركز الغامر */
-        .flower-wrapper {
+        /* حاوية الوردة الحقيقية ثلاثية الأبعاد */
+        .rose-container {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 300px;
-            height: 300px;
-            transform: translate(-50%, -50%) scale(0.2) rotateX(20deg);
+            width: 350px;
+            height: 350px;
+            transform: translate(-50%, -50%) scale(0.1) translateZ(-800px);
             transform-style: preserve-3d;
-            animation: diveIntoFlower 6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            animation: diveIntoRose 7s cubic-bezier(0.15, 0.85, 0.25, 1) forwards;
         }
 
-        /* طبقات البتلات لتعطي تأثير الدخول إلى جوف الوردة */
-        .rose-layer {
+        /* طبقات بتلات الوردة المصممة باحترافية لتشبه الورد الحقيقي */
+        .rose-ring {
             position: absolute;
             width: 100%;
             height: 100%;
             transform-style: preserve-3d;
         }
 
-        .3d-petal {
+        .rose-petal {
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 120px;
-            height: 180px;
-            background: linear-gradient(to top, #8b0032, #ff1493, #ff77a9);
+            width: 110px;
+            height: 170px;
+            background: linear-gradient(to top, #66001a, #cc0044, #ff3385, #ff99cc);
             border-radius: 50% 50% 40% 40%;
             transform-origin: center bottom;
-            box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.5), 0 0 20px rgba(255, 20, 147, 0.4);
-            opacity: 0.95;
-            border: 1px solid rgba(255, 182, 193, 0.3);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.4), 0 0 15px rgba(204, 0, 68, 0.6);
+            opacity: 0.92;
+            border: 1px solid rgba(255, 182, 193, 0.2);
         }
 
-        /* توزيع البتلات بشكل دائري متداخل لعمق مذهل */
-        .3d-petal:nth-child(1) { transform: translate(-50%, -100%) rotate(0deg) rotateX(15deg); }
-        .3d-petal:nth-child(2) { transform: translate(-50%, -100%) rotate(45deg) rotateX(15deg); }
-        .3d-petal:nth-child(3) { transform: translate(-50%, -100%) rotate(90deg) rotateX(15deg); }
-        .3d-petal:nth-child(4) { transform: translate(-50%, -100%) rotate(135deg) rotateX(15deg); }
-        .3d-petal:nth-child(5) { transform: translate(-50%, -100%) rotate(180deg) rotateX(15deg); }
-        .3d-petal:nth-child(6) { transform: translate(-50%, -100%) rotate(225deg) rotateX(15deg); }
-        .3d-petal:nth-child(7) { transform: translate(-50%, -100%) rotate(270deg) rotateX(15deg); }
-        .3d-petal:nth-child(8) { transform: translate(-50%, -100%) rotate(315deg) rotateX(15deg); }
+        /* توزيع البتلات في طبقات دائرية متداخلة لتعطي شكل الوردة الحقيقي */
+        /* الطبقة الخارجية */
+        .ring-1 .rose-petal:nth-child(1) { transform: translate(-50%, -100%) rotate(0deg) rotateX(25deg); }
+        .ring-1 .rose-petal:nth-child(2) { transform: translate(-50%, -100%) rotate(60deg) rotateX(25deg); }
+        .ring-1 .rose-petal:nth-child(3) { transform: translate(-50%, -100%) rotate(120deg) rotateX(25deg); }
+        .ring-1 .rose-petal:nth-child(4) { transform: translate(-50%, -100%) rotate(180deg) rotateX(25deg); }
+        .ring-1 .rose-petal:nth-child(5) { transform: translate(-50%, -100%) rotate(240deg) rotateX(25deg); }
+        .ring-1 .rose-petal:nth-child(6) { transform: translate(-50%, -100%) rotate(300deg) rotateX(25deg); }
 
-        /* قلب الوردة المضيء في المنتصف */
-        .rose-core {
+        /* الطبقة الداخلية (أصغر ومائلة للداخل لتشكل عمق الوردة) */
+        .ring-2 {
+            transform: scale(0.7) translateZ(30px);
+        }
+        .ring-2 .rose-petal:nth-child(1) { transform: translate(-50%, -100%) rotate(30deg) rotateX(35deg); background: linear-gradient(to top, #880022, #ff1a75); }
+        .ring-2 .rose-petal:nth-child(2) { transform: translate(-50%, -100%) rotate(90deg) rotateX(35deg); background: linear-gradient(to top, #880022, #ff1a75); }
+        .ring-2 .rose-petal:nth-child(3) { transform: translate(-50%, -100%) rotate(150deg) rotateX(35deg); background: linear-gradient(to top, #880022, #ff1a75); }
+        .ring-2 .rose-petal:nth-child(4) { transform: translate(-50%, -100%) rotate(210deg) rotateX(35deg); background: linear-gradient(to top, #880022, #ff1a75); }
+        .ring-2 .rose-petal:nth-child(5) { transform: translate(-50%, -100%) rotate(270deg) rotateX(35deg); background: linear-gradient(to top, #880022, #ff1a75); }
+        .ring-2 .rose-petal:nth-child(6) { transform: translate(-50%, -100%) rotate(330deg) rotateX(35deg); background: linear-gradient(to top, #880022, #ff1a75); }
+
+        /* قلب الوردة النابض في المنتصف */
+        .rose-heart-center {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) translateZ(30px);
-            width: 70px;
-            height: 70px;
-            background: radial-gradient(circle, #ff4d4d, #550011);
+            transform: translate(-50%, -50%) translateZ(60px);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #ff1a75, #4d0013);
             border-radius: 50%;
-            box-shadow: 0 0 30px #ff1493, inset 0 0 15px #ffffff;
+            box-shadow: 0 0 30px #ff0055;
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: corePulse 2s infinite ease-in-out;
+            animation: pulseHeart 1.5s infinite ease-in-out;
         }
 
-        .rose-core span {
-            font-size: 30px;
-            animation: heartbeat 1.2s infinite;
+        .rose-heart-center span {
+            font-size: 28px;
+            animation: beat 1.2s infinite;
         }
 
-        @keyframes corePulse {
-            0%, 100% { transform: translate(-50%, -50%) translateZ(30px) scale(1); }
-            50% { transform: translate(-50%, -50%) translateZ(40px) scale(1.1); }
+        @keyframes pulseHeart {
+            0%, 100% { transform: translate(-50%, -50%) translateZ(60px) scale(1); }
+            50% { transform: translate(-50%, -50%) translateZ(80px) scale(1.15); }
         }
 
-        @keyframes heartbeat {
+        @keyframes beat {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.25); }
         }
 
-        /* حركات السفر والدخول للعمق (Dive In) */
-        @keyframes zoomInSpace {
-            0% { transform: scale(0.2) translateZ(-1000px); opacity: 0; }
-            50% { opacity: 1; }
+        /* حركات الدخول السينمائية (الغوص جوا الوردة) */
+        @keyframes spaceDive {
+            0% { transform: scale(0.1) translateZ(-1500px); opacity: 0; }
+            40% { opacity: 1; }
             100% { transform: scale(1) translateZ(0px); opacity: 1; }
         }
 
-        @keyframes diveIntoFlower {
-            0% { transform: translate(-50%, -50%) scale(0.1) rotateX(45deg) translateZ(-500px); }
+        @keyframes diveIntoRose {
+            0% { transform: translate(-50%, -50%) scale(0.05) rotateX(60deg) translateZ(-1000px); }
             100% { transform: translate(-50%, -50%) scale(1) rotateX(0deg) translateZ(0px); }
         }
 
-        /* صندوق الرسالة الفاخرة يظهر بعد الاكتمال */
-        .love-message {
+        /* رسالة الحب الفاخرة تظهر بسلام بعد اكتمال الدخول */
+        .love-note {
             position: absolute;
-            bottom: 40px;
+            bottom: 35px;
             width: 100%;
             text-align: center;
             opacity: 0;
             transform: translateY(30px);
-            animation: showMessage 2s ease 5s forwards;
+            animation: revealNote 2s ease 5.5s forwards;
             z-index: 100;
             padding: 0 20px;
         }
 
-        .love-message h1 {
-            color: #ff85b3;
+        .love-note h1 {
+            color: #ff99cc;
             font-size: 24px;
             margin-bottom: 8px;
-            text-shadow: 0 0 15px rgba(255, 133, 179, 0.6);
+            text-shadow: 0 0 15px rgba(255, 153, 204, 0.7);
         }
 
-        .love-message p {
-            color: #fce4ec;
+        .love-note p {
+            color: #ffe6f2;
             font-size: 16px;
             line-height: 1.6;
             margin: 0;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+            text-shadow: 0 0 10px rgba(0,0,0,0.9);
         }
 
-        @keyframes showMessage {
+        @keyframes revealNote {
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* قلوب متطايرة تدريجياً */
-        .ambient-heart {
+        /* قلوب متطايرة برقة */
+        .sparkle-heart {
             position: absolute;
             color: #ff4d88;
             font-size: 14px;
-            animation: floatUpSlow 5s infinite linear;
+            animation: floatUp 5s infinite linear;
             z-index: 50;
         }
 
-        @keyframes floatUpSlow {
-            0% { transform: translateY(105vh) scale(0.5); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(-10vh) scale(1.4); opacity: 0; }
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) scale(0.4); opacity: 0; }
+            50% { opacity: 0.9; }
+            100% { transform: translateY(-10vh) scale(1.3); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="space" id="spaceLayer"></div>
+    <div class="space" id="spaceField"></div>
 
-    <!-- مشهد الوردة العميق -->
-    <div class="flower-wrapper">
-        <div class="rose-layer">
-            <div class="3d-petal"></div>
-            <div class="3d-petal"></div>
-            <div class="3d-petal"></div>
-            <div class="3d-petal"></div>
-            <div class="3d-petal"></div>
-            <div class="3d-petal"></div>
-            <div class="3d-petal"></div>
-            <div class="3d-petal"></div>
-            <div class="rose-core"><span>❤️</span></div>
+    <!-- مشهد الوردة الحقيقي ثلاثي الأبعاد والعميق -->
+    <div class="rose-container">
+        <!-- الطبقة الخارجية للبتلات -->
+        <div class="rose-ring ring-1">
+            <div class="rose-petal"></div>
+            <div class="rose-petal"></div>
+            <div class="rose-petal"></div>
+            <div class="rose-petal"></div>
+            <div class="rose-petal"></div>
+            <div class="rose-petal"></div>
         </div>
+        <!-- الطبقة الداخلية للبتلات لإعطاء عمق الوردة الحقيقي -->
+        <div class="rose-ring ring-2">
+            <div class="rose-petal"></div>
+            <div class="rose-petal"></div>
+            <div class="rose-petal"></div>
+            <div class="rose-petal"></div>
+            <div class="rose-petal"></div>
+            <div class="rose-petal"></div>
+        </div>
+        <!-- قلب الوردة -->
+        <div class="rose-heart-center"><span>❤️</span></div>
     </div>
 
-    <!-- الرسالة الرومانسية المميزة -->
-    <div class="love-message">
-        <h1>إلى من ملكت الروح والفؤاد ❤️</h1>
-        <p>مثلما يدخل النور إلى أعمق زوايا القلب، أشرقتِ في حياتي فأزهرت عُمق روحي. كل عام وأنتِ النبض الذي لا يتوقف.</p>
+    <!-- الرسالة -->
+    <div class="love-note">
+        <h1>إلى أبهى وأغلى زهرة في عُمري ❤️</h1>
+        <p>مثلما تدخل الروح إلى أعماق الفؤاد، أنتِ نبض حياتي وجمال أيامي. كل عام وأنتِ معي.</p>
     </div>
 
     <script>
-        // خلق نجوم الفضاء العميقة
-        const space = document.getElementById('spaceLayer');
-        for (let i = 0; i < 50; i++) {
+        // نجوم الفضاء
+        const spaceField = document.getElementById('spaceField');
+        for (let i = 0; i < 60; i++) {
             let s = document.createElement('div');
             s.className = 'star';
             s.style.top = Math.random() * 100 + 'vh';
@@ -213,19 +229,19 @@
             s.style.width = (Math.random() * 3 + 1) + 'px';
             s.style.height = s.style.width;
             s.style.animationDelay = (Math.random() * 3) + 's';
-            space.appendChild(s);
+            spaceField.appendChild(s);
         }
 
-        // خلق قلوب متطايرة تناسب الجو السينمائي
+        // قلوب متطايرة
         setInterval(() => {
             let h = document.createElement('div');
-            h.className = 'ambient-heart';
+            h.className = 'sparkle-heart';
             h.innerHTML = '💖';
             h.style.left = Math.random() * 100 + 'vw';
             h.style.animationDuration = (Math.random() * 3 + 4) + 's';
             document.body.appendChild(h);
             setTimeout(() => h.remove(), 6000);
-        }, 800);
+        }, 700);
     </script>
 </body>
 </html>
