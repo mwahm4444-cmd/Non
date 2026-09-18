@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رحلة إلى عالم الزهور</title>
+    <style>
+        * { box-sizing: border-box; }
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            overflow: hidden;
+            font-family: 'Tahoma', sans-serif;
+        }
+        #webgl-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        /* صندوق الرسالة والتفاصيل التي تظهر عند الوصول للأرض */
+        .message-container {
+            position: absolute;
+            bottom: 40px;
+            width: 100%;
+            text-align: center;
+            color: #fff;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 2s ease-in-out;
+            pointer-events: none;
+            z-index: 100;
+            text-shadow: 0 0 20px #ff1493, 0 0 10px #000;
+            padding: 0 20px;
+        }
+        .message-container.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .message-container h1 {
+            font-size: 28px;
+            color: #ffb3d9;
+            margin-bottom: 10px;
+        }
+        .message-container p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #fff0f5;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="webgl-container"></div>
+
+    <!-- الرسالة النهائية داخل عالم الزهور -->
+    <div class="message-container" id="finalMessage">
+        <h1>إلى أبهى وأغلى زهرة في عُمري ❤️</h1>
+        <p>هبطنا من أعالي الفضاء والغيوم، لنستقر في واحة حبنا وأماننا.<br>كل عام وأنتِ النبض الذي يزهر أيامي دائماً. 💖</p>
+    </div>
+
+    <!-- استدعاء Three.js ومكتبات المساعدة -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <script>
+        // إعداد المشهد والكاميرا والمولد البصري
+        const container = document.getElementById('webgl-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050005, 0.0015);
+
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 5000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        container.appendChild(renderer.domElement);
+
+        // إضاءة احترافية
+        const ambientLight = new THREE.AmbientLight(0xffb3d9, 1.2);
+        scene.add(ambientLight);
+
+        const sunLight = new THREE.DirectionalLight(0xffffff, 2.5);
+        sunLight.position.set(200, 500, 300);
+        scene.add(sunLight);
+
+        const pointLight = new THREE.PointLight(0xff1493, 3, 800);
+        pointLight.position.set(0, 50, 0);
+        scene.add(pointLight);
+
+        // 1. طبقة الفضاء والنجوم البعيدة
+        const starsGeometry = new THREE.BufferGeometry();
+        const starCount = 6000;
+        const starPositions = new Float32Array(starCount * 3);
+        for(let i = 0; i < starCount * 3; i += 3) {
+            starPositions[i] = (Math.random() - 0.5) * 4000;
+            starPositions[i+1] = (Math.random() - 0.5) * 4000;
+            starPositions[i+2] = (Math.random() - 0.5) * 4000;
+        }
+        starsGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+        const starsMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 1.5, sizeAttenuation: true });
+        const starField = new THREE.Points(starsGeometry, starsMaterial);
+        scene.add(starField);
+
+        // 2. كوكب الزهرة الضخم في الفضاء
+        const planetGroup = new THREE.Group();
+        scene.add(planetGroup);
+
+        const planetGeo = new THREE.SphereGeometry(180, 64, 64);
+        const planetMat = new THREE.MeshStandardMaterial({
+            color: 0xff1493,
+            emissive: 0x4a0026,
+            roughness: 0.3,
+            metalness: 0.4,
+            wireframe: false
+        });
+        const planetMesh = new THREE.Mesh(planetGeo, planetMat);
+        planetGroup.add(planetMesh);
+
+        // إضافة تفاصيل بريق وأوراق على سطح الكوكب لتبدو غنية
+        const petalGeo = new THREE.ConeGeometry(25, 70, 16);
+        const petalMat = new THREE.MeshStandardMaterial({ color: 0xff66b2, roughness: 0.2 });
+        for(let i = 0; i < 40; i++) {
+            const petal = new THREE.Mesh(petalGeo, petalMat);
+            const phi = Math.acos(-1 + (2 * i) / 40);
+            const theta = Math.sqrt(40 * Math.PI) * phi;
+            petal.position.setFromSphericalCoords(185, phi, theta);
+            petal.lookAt(0,0,0);
+            petal.rotateX(Math.PI / 2);
+            planetGroup.add(petal);
+        }
+
+        // 3. طبقة الغيوم المحيطة بالكوكب
+        const cloudGeo = new THREE.SphereGeometry(210, 32, 32);
+        const cloudMat = new THREE.MeshStandardMaterial({
+            color: 0xffffff,
+            transparent: true,
+            opacity: 0.35,
+            roughness: 0.9
+        });
+        const clouds = new THREE.Mesh(cloudGeo, cloudMat);
+        planetGroup.add(clouds);
+
+        // 4. أرض تحت السطح (عالم الزهور والبناية الرومانسية)
+        const groundGroup = new THREE.Group();
+        groundGroup.position.set(0, -1000, 0); // مخفية في الأسفل بالبداية
+        scene.add(groundGroup);
+
+        // أرضية مشحونة بالزهور والألوان
+        const groundGeo = new THREE.PlaneGeometry(1500, 1500, 64, 64);
+        const groundMat = new THREE.MeshStandardMaterial({ color: 0x26001a, roughness: 0.8 });
+        const ground = new THREE.Mesh(groundGeo, groundMat);
+        ground.rotation.x = -Math.PI / 2;
+        groundGroup.add(ground);
+
+        // بناء شكل رمزي لبيت أو قصر رومانسي مصغر في المنتصف
+        const houseGroup = new THREE.Group();
+        houseGroup.position.set(0, 0, -200);
+        groundGroup.add(houseGroup);
+
+        const baseGeo = new THREE.BoxGeometry(80, 60, 80);
+        const baseMat = new THREE.MeshStandardMaterial({ color: 0xff99cc, roughness: 0.4 });
+        const baseMesh = new THREE.Mesh(baseGeo, baseMat);
+        baseMesh.position.y = 30;
+        houseGroup.add(baseMesh);
+
+        const roofGeo = new THREE.ConeGeometry(70, 50, 4);
+        const roofMat = new THREE.MeshStandardMaterial({ color: 0xcc0066, roughness: 0.3 });
+        const roofMesh = new THREE.Mesh(roofGeo, roofMat);
+        roofMesh.position.y = 85;
+        roofMesh.rotation.y = Math.PI / 4;
+        houseGroup.add(houseMesh);
+
+        // إضافة زهور متناثرة على الأرض
+        const flowerPositions = [];
+        for(let i = 0; i < 200; i++) {
+            const fx = (Math.random() - 0.5) * 800;
+            const fz = (Math.random() - 0.5) * 800;
+            if(Math.abs(fx) > 70 || Math.abs(fz + 200) > 70) { // إبعادها عن البيت قليلاً
+                const stemGeo = new THREE.CylinderGeometry(1, 1, 15, 6);
+                const stemMat = new THREE.MeshStandardMaterial({ color: 0x006622 });
+                const stem = new THREE.Mesh(stemGeo, stemMat);
+                stem.position.set(fx, 7.5, fz);
+                
+                const headGeo = new THREE.SphereGeometry(6, 8, 8);
+                const headMat = new THREE.MeshStandardMaterial({ color: 0xff3385, emissive: 0xff0066 });
+                const head = new THREE.Mesh(headGeo, headMat);
+                head.position.set(fx, 15, fz);
+                
+                groundGroup.add(stem);
+                groundGroup.add(head);
+            }
+        }
+
+        // مسار الكاميرا السينمائي والحركة التدريجية
+        camera.position.set(0, 0, 900);
+        let animationStage = 1; // 1: الفضاء والكوكب، 2: الاختراق والغيوم، 3: الوصول للأرض والزهور
+        let targetZ = 900;
+        let targetY = 0;
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // دوران الفضاء والكوكب ببطء لإعطاء حيوية
+            starField.rotation.y += 0.0003;
+            planetGroup.rotation.y += 0.002;
+            clouds.rotation.y += 0.003;
+
+            // مراحل الانتقال والدخول السينمائي
+            if (animationStage === 1) {
+                camera.position.z -= 4; // الاقتراب نحو الكوكب
+                if (camera.position.z <= 350) {
+                    animationStage = 2; // بدء مرحلة الدخول للغيوم
+                }
+            } else if (animationStage === 2) {
+                camera.position.z -= 2.5; // الدخول عبر الغلاف الجوي
+                camera.position.y -= 3.5; // الهبوط للأسفل نحو سطح الأرض
+                if (camera.position.z <= 50 && camera.position.y <= -950) {
+                    animationStage = 3; // الوصول التام لعالم الزهور والأرض
+                    document.getElementById('finalMessage').classList.add('visible');
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // التجاوب مع تغير حجم الشاشة
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
